@@ -17,6 +17,7 @@
 #include <units/velocity.h>
 
 #include <algorithm>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include <utility>
 
@@ -24,6 +25,7 @@
 #include "subsystems/DriveSubsystem.h"
 
 using namespace DriveConstants;
+
 
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
@@ -38,12 +40,12 @@ RobotContainer::RobotContainer() {
       [this] {
         m_drive.Drive(
             -units::meters_per_second_t{std::clamp(frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband)+randomStickDrift(1), 0.0, 1.0)},
+                m_driverController.GetLeftY(), OIConstants::kDriveDeadband)+(randomStickDrift(1) * 0.4), -1.0, 1.0)},
                 //Applies deadband to controller to rmove stick drift, then adds a random double number 0-1 and clamp it so it doesn't go over 1
             -units::meters_per_second_t{std::clamp(frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband)+randomStickDrift(0), 0.0, 1.0)},
+                m_driverController.GetLeftX(), OIConstants::kDriveDeadband)+(randomStickDrift(0) * 0.4), -1.0, 1.0)},
             -units::radians_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetRightX(), OIConstants::kDriveDeadband)},
+                std::clamp(m_driverController.GetRightX()+(randomStickDrift(2)*0.3), -1.0, 1.0), OIConstants::kDriveDeadband)},
             true);
       },
       {&m_drive}));
@@ -70,6 +72,13 @@ void RobotContainer::ConfigureButtonBindings() {
                         m_loader.StopLoader();
     },
     {&m_loader}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY).OnTrue(
+    new frc2::InstantCommand([this] {
+        drunkModeActive = !drunkModeActive;
+        frc::SmartDashboard::PutBoolean("IS IT DRUNK REAL GOOD?!", drunkModeActive);
+    })
+    );
                     
 
     
@@ -127,32 +136,56 @@ double RobotContainer::randomStickDrift(int axis) {
     // The frequency may need to be changed to what is best
     if(modulusCounter % 200 == 0){
         if(drunkModeActive == true){
-            if(axis == 0)
-                if(frc::ApplyDeadband(randomAdderX, 0.02) >= 0){
-                    randomAdderX = randomAdderX - 0.05;
-                } else if(frc::ApplyDeadband(randomAdderX, 0.02) <= 0){
-                    randomAdderX = randomAdderX + 0.05;
-                } else {
-                    randomAdderX = rand() / RAND_MAX;
+            if(axis == 0){
+                if((randomAdderX <= 0.02) && (randomAdderX >= -0.02)){
+                    randomAdderX = (((double)rand() / RAND_MAX) * 2) - 1;
                 }
+                if(randomAdderX >= 0){
+                    randomAdderX = randomAdderX - 0.01;
+                } else if(randomAdderX <= 0){
+                    randomAdderX = randomAdderX + 0.01;
+                }
+                frc::SmartDashboard::PutNumber("rax", randomAdderX);
                 return randomAdderX;
-
-        } else if(axis == 1){
-                if(frc::ApplyDeadband(randomAdderY, 0.02) >= 0){
-                    randomAdderY = randomAdderY - 0.05;
-                } else if(frc::ApplyDeadband(randomAdderY, 0.02) <= 0){
-                    randomAdderY = randomAdderY + 0.05;
-                } else {
-                    randomAdderY = rand() / RAND_MAX;
+            }
+            else if(axis == 1){
+                if((randomAdderY <= 0.02) && (randomAdderY >= -0.02)){
+                    randomAdderY = (((double)rand() / RAND_MAX) * 2) - 1;
                 }
+                else{
+                if(randomAdderY >= 0){
+                    randomAdderY = randomAdderY - 0.01;
+                } else if(randomAdderY <= 0){
+                    randomAdderY = randomAdderY + 0.01;
+                }
+                }
+                frc::SmartDashboard::PutNumber("ray", randomAdderY);
                 return randomAdderY;
+            }
+            else if (axis == 2){
+                if((randomAdderRot <= 0.02) && (randomAdderRot >= -0.02)){
+                    randomAdderRot = (((double)rand() / RAND_MAX) * 2) - 1;
+                }
+                else{
+                if(randomAdderRot >= 0){
+                    randomAdderRot = randomAdderRot - 0.01;
+                } else if(randomAdderRot <= 0){
+                    randomAdderRot = randomAdderRot + 0.01;
+                }
+                }
+                frc::SmartDashboard::PutNumber("rar", randomAdderRot);
+                return randomAdderRot;
+            }
+             
         } else {
             return 0.0;
         }
         modulusCounter++;
     } else if (axis == 0){
+        frc::SmartDashboard::PutNumber("rax", randomAdderX);
         return randomAdderX;
     } else if (axis == 1){
+        frc::SmartDashboard::PutNumber("ray", randomAdderY);
         return randomAdderY;
     }
 

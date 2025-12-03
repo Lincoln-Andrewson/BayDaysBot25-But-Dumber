@@ -54,5 +54,6 @@ class RobotContainer {
   int modulusCounter = 0;
   double randomAdderX;
   double randomAdderY;
+  double randomAdderRot;
   bool drunkModeActive = true;
 };
