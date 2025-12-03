@@ -18,6 +18,10 @@ class StupidFunctions : public frc2::SubsystemBase {
         void constructiveCriticism(frc::XboxController& driverController);
         void constructiveCritismKill();
 
+        bool brickRobot = false;
+
+        //frc2::Command* cmd = new frc2::RunCommand([this]{constructiveCriticismKill();}, {this});
+
     private:
         int drunkModulusCounter = 0;
         double randomAdderX;
@@ -27,7 +31,7 @@ class StupidFunctions : public frc2::SubsystemBase {
         double criticismRand = 0;
         int criticismCounter = 0;
         bool criticismStalled = false;
-        
+
 
         bool stupidModeActive = true;
     

@@ -47,10 +47,13 @@ double StupidFunctions::randomStickDrift(int axis) {
 }
 void constructiveCriticismKill(){
     frc::SmartDashboard::PutBoolean("HAHAHAHA DEAD", "yup");
+    if(int zero = 0; zero==0){
+        5/zero;
+    }
+    bool criticismStalled = false;
 }
 void StupidFunctions::constructiveCriticism(frc::XboxController& driverController){  
     if(stupidModeActive == true){
-        srand(time(NULL)); // Randomizes the random
         if(!criticismStalled){
             if(criticismCounter >= criticismCycles){  // If critismCounter is over the max time, reset it
                 criticismCounter = 0;
@@ -62,7 +65,7 @@ void StupidFunctions::constructiveCriticism(frc::XboxController& driverControlle
             if(frc::ApplyDeadband(criticismRand-criticismCounter, StupidFunctionsConstants::kRumbleLength) == 0){ // If the counter is in between a range (rumble length) of the random point, rumble controller 
                 driverController.SetRumble(driverController.kBothRumble, 1);
                 frc::SmartDashboard::PutNumber("Rumble", 1);
-                //criticismStalled = true;
+                //criticismStalled = true; //If this is enabled it will crash the code when the controller rumbles
 
             } else{  // Otherwise stop rumbling controller
                 driverController.SetRumble(driverController.kBothRumble, 0);
@@ -76,9 +79,8 @@ void StupidFunctions::constructiveCriticism(frc::XboxController& driverControlle
 
         } else{ // I don't even know
             driverController.SetRumble(driverController.kBothRumble, 0);
-            frc::SmartDashboard::PutString("Did you screw up?!?!?", "Fibler Text");
-            frc::SmartDashboard::PutData("Yes :(", new frc2::RunCommand([this] {constructiveCriticismKill();}));
-            frc::SmartDashboard::PutData("No :D", new frc2::RunCommand([this] {criticismStalled=false;}));
+            frc::SmartDashboard::PutString("YOU SCREWED UP XD", "Fibler Text");
+            
         }
     }
 };

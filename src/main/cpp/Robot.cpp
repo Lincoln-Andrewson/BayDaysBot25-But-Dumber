@@ -7,7 +7,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {        
+  srand(time(NULL)); // Randomizes the random
+  //frc::SmartDashboard::PutData("Eurgh", m_stupidFunctions.cmd);
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
@@ -18,9 +21,9 @@ void Robot::RobotInit() {}
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() { 
-  frc2::CommandScheduler::GetInstance().Run(); 
+  if(m_stupidFunctions.brickRobot == false){  frc2::CommandScheduler::GetInstance().Run();  }
   m_stupidFunctions.constructiveCriticism(m_container.m_driverController);
-  }
+}
 
 /**
  * This function is called once each time the robot enters Disabled mode. You

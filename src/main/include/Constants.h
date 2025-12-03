@@ -112,6 +112,6 @@ namespace LoaderConstants {
 }
 
 namespace StupidFunctionsConstants {
-    constexpr int kMaxCriticismSeconds = 10; //30 secs by dafault, can be changed
-    constexpr double kRumbleLength = 15.0; // How long to rumble controller for
+    constexpr int kMaxCriticismSeconds = 10; //10 secs by dafault, can be changed
+    constexpr double kRumbleLength = 12; // How long to rumble controller for
 }
