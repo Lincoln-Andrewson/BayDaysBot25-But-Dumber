@@ -16,35 +16,58 @@ double StupidFunctions::randomStickDrift(int axis) {
     if(stupidModeActive == true){
         if(drunkModulusCounter % 200 == 0){
                 if(axis == 0){
-                    if(frc::ApplyDeadband(randomAdderX, 0.02) >= 0){
-                        randomAdderX = randomAdderX - 0.05;
-                    } else if(frc::ApplyDeadband(randomAdderX, 0.02) <= 0){
-                        randomAdderX = randomAdderX + 0.05;
-                    } else {
-                        randomAdderX = rand() / RAND_MAX;
-                    }
-                    return randomAdderX;
-
-            } else if(axis == 1){
-                    if(frc::ApplyDeadband(randomAdderY, 0.02) >= 0){
-                        randomAdderY = randomAdderY - 0.05;
-                    } else if(frc::ApplyDeadband(randomAdderY, 0.02) <= 0){
-                        randomAdderY = randomAdderY + 0.05;
-                    } else {
-                        randomAdderY = rand() / RAND_MAX;
-                    }
-                    return randomAdderY;
-            } else {
-                return 0.0;
+                if((randomAdderX <= 0.02) && (randomAdderX >= -0.02)){
+                    randomAdderX = (((double)rand() / RAND_MAX) * 2) - 1;
+                }
+                if(randomAdderX >= 0){
+                    randomAdderX = randomAdderX - 0.01;
+                } else if(randomAdderX <= 0){
+                    randomAdderX = randomAdderX + 0.01;
+                }
+                frc::SmartDashboard::PutNumber("rax", randomAdderX);
+                return randomAdderX;
             }
-            drunkModulusCounter++;
-        } else if (axis == 0){
-            return randomAdderX;
-        } else if (axis == 1){
-            return randomAdderY;
+            else if(axis == 1){
+                if((randomAdderY <= 0.02) && (randomAdderY >= -0.02)){
+                    randomAdderY = (((double)rand() / RAND_MAX) * 2) - 1;
+                }
+                else{
+                if(randomAdderY >= 0){
+                    randomAdderY = randomAdderY - 0.01;
+                } else if(randomAdderY <= 0){
+                    randomAdderY = randomAdderY + 0.01;
+                }
+                }
+                frc::SmartDashboard::PutNumber("ray", randomAdderY);
+                return randomAdderY;
+            }
+            else if (axis == 2){
+                if((randomAdderRot <= 0.02) && (randomAdderRot >= -0.02)){
+                    randomAdderRot = (((double)rand() / RAND_MAX) * 2) - 1;
+                }
+                else{
+                if(randomAdderRot >= 0){
+                    randomAdderRot = randomAdderRot - 0.01;
+                } else if(randomAdderRot <= 0){
+                    randomAdderRot = randomAdderRot + 0.01;
+                }
+                }
+                frc::SmartDashboard::PutNumber("rar", randomAdderRot);
+                return randomAdderRot;
+            }
+             
+        } else {
+            return 0.0;
         }
+    } else if (axis == 0){
+        frc::SmartDashboard::PutNumber("rax", randomAdderX);
+        return randomAdderX;
+    } else if (axis == 1){
+        frc::SmartDashboard::PutNumber("ray", randomAdderY);
+        return randomAdderY;
     }
-}
+    }
+
 void constructiveCriticismKill(){
     frc::SmartDashboard::PutBoolean("HAHAHAHA DEAD", "yup");
     if(int zero = 0; zero==0){
