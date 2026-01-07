@@ -26,6 +26,7 @@ class StupidFunctions : public frc2::SubsystemBase {
         int drunkModulusCounter = 0;
         double randomAdderX;
         double randomAdderY;
+        double randomAdderRot;
         
         int criticismCycles = StupidFunctionsConstants::kMaxCriticismSeconds*50; // Converts seconds to cycles (1 cycle - 20ms)
         double criticismRand = 0;
